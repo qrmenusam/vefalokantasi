@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vefa Lokantası | Dijital Menü</title>
+    <title>Vefa Lokantası | İnteraktif Menü</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary-color: #d35400; /* İlk tasarımındaki sıcak turuncu */
-            --secondary-color: #2c3e50; /* İlk tasarımındaki koyu lacivert/gri */
-            --bg-color: #fdfaf5; /* Krem arka plan */
+            --primary-color: #d35400; /* Turuncu */
+            --secondary-color: #2c3e50; /* Lacivert/Gri */
+            --bg-color: #f8f9fa;
         }
 
         body {
@@ -21,181 +21,241 @@
         }
 
         header {
-            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('https://images.unsplash.com/photo-1555396273-367ea4eb4db5?auto=format&fit=crop&w=800&q=80');
-            background-size: cover;
-            background-position: center;
-            color: white;
+            background-color: white;
             text-align: center;
-            padding: 50px 20px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            padding: 30px 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            border-bottom: 4px solid var(--primary-color);
+        }
+
+        .logo {
+            max-width: 120px;
+            height: auto;
+            margin-bottom: 10px;
         }
 
         header h1 {
             margin: 0;
-            font-size: 36px;
-            font-weight: 700;
-            letter-spacing: 2px;
+            font-size: 26px;
+            color: var(--secondary-color);
             text-transform: uppercase;
-        }
-
-        header p {
-            margin: 10px 0 0;
-            font-weight: 300;
-            font-style: italic;
-            font-size: 18px;
+            letter-spacing: 1px;
         }
 
         .container {
-            max-width: 600px;
-            margin: -30px auto 40px;
+            max-width: 500px;
+            margin: 20px auto 100px;
             padding: 0 15px;
-            position: relative;
         }
 
-        /* Kategori Başlıkları */
-        .category-title {
-            background-color: var(--secondary-color);
-            color: white;
-            padding: 12px 20px;
-            border-radius: 10px;
-            margin: 40px 0 15px;
-            font-size: 20px;
-            font-weight: 600;
-            text-align: left;
-            border-left: 6px solid var(--primary-color);
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-        }
-
-        /* Ürün Kartı */
-        .menu-item {
+        /* Akordiyon Yapısı */
+        .category-item {
+            margin-bottom: 10px;
+            border-radius: 12px;
+            overflow: hidden;
             background: white;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+
+        .category-header {
+            background-color: white;
+            color: var(--secondary-color);
+            padding: 18px 20px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 15px 20px;
-            margin-bottom: 8px;
-            border-radius: 12px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-            transition: 0.3s;
+            border-left: 6px solid var(--primary-color);
+            transition: background 0.3s;
+        }
+
+        .category-header:active {
+            background-color: #fdf2e9;
+        }
+
+        /* Ok işareti */
+        .category-header::after {
+            content: '▼';
+            font-size: 12px;
+            transition: transform 0.3s;
+            color: var(--primary-color);
+        }
+
+        .category-item.active .category-header::after {
+            transform: rotate(180deg);
+        }
+
+        /* İçerik Alanı */
+        .category-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease-out;
+            background-color: #fff;
+        }
+
+        .category-item.active .category-content {
+            max-height: 1000px; /* İçerik miktarına göre artabilir */
+        }
+
+        /* Ürün Satırı */
+        .menu-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 20px;
+            border-top: 1px solid #f1f1f1;
         }
 
         .item-name {
-            font-weight: 600;
-            font-size: 16px;
-            color: #2c3e50;
+            font-weight: 500;
+            font-size: 15px;
+            color: #444;
         }
 
         .item-price {
             font-weight: 700;
             color: var(--primary-color);
-            font-size: 17px;
-            white-space: nowrap;
         }
 
         footer {
             text-align: center;
-            padding: 40px 20px;
-            font-size: 14px;
-            color: #777;
-            background: #fff;
-            margin-top: 50px;
-            border-top: 1px solid #eee;
-        }
-
-        /* Tıklandığında efekt */
-        .menu-item:active {
-            transform: scale(0.97);
-            background-color: #fff9f5;
+            padding: 30px;
+            font-size: 13px;
+            color: #999;
         }
     </style>
 </head>
 <body>
 
 <header>
+    <!-- Logo dosya adın logo.png olmalı -->
+    <img src="logo.png" alt="Vefa Lokantası Logo" class="logo">
     <h1>VEFA LOKANTASI</h1>
-    <p>Lezzetin ve Vefanın Adresi</p>
 </header>
 
 <div class="container">
     
     <!-- ÇORBALAR -->
-    <div class="category-title">Çorbalar</div>
-    <div class="menu-item"><div class="item-name">Mercimek</div><div class="item-price">70 TL</div></div>
-    <div class="menu-item"><div class="item-name">Ezo Gelin</div><div class="item-price">70 TL</div></div>
-    <div class="menu-item"><div class="item-name">Tavuk Suyu</div><div class="item-price">80 TL</div></div>
+    <div class="category-item">
+        <div class="category-header">Çorbalar</div>
+        <div class="category-content">
+            <div class="menu-row"><span>Mercimek</span><span class="item-price">70 TL</span></div>
+            <div class="menu-row"><span>Ezo Gelin</span><span class="item-price">70 TL</span></div>
+            <div class="menu-row"><span>Tavuk Suyu</span><span class="item-price">80 TL</span></div>
+        </div>
+    </div>
 
     <!-- ET YEMEKLERİ -->
-    <div class="category-title">Et Yemekleri</div>
-    <div class="menu-item"><div class="item-name">Macar Kebabı</div><div class="item-price">280 TL</div></div>
-    <div class="menu-item"><div class="item-name">Sebzeli Kebap</div><div class="item-price">280 TL</div></div>
-    <div class="menu-item"><div class="item-name">Patlıcan Kebap</div><div class="item-price">280 TL</div></div>
-    <div class="menu-item"><div class="item-name">Hünkar Beğendi</div><div class="item-price">280 TL</div></div>
-    <div class="menu-item"><div class="item-name">Arnavut Ciğeri</div><div class="item-price">280 TL</div></div>
-    <div class="menu-item"><div class="item-name">Et Haşlama</div><div class="item-price">350 TL</div></div>
-    <div class="menu-item"><div class="item-name">Şef Tabağı</div><div class="item-price">350 TL</div></div>
+    <div class="category-item">
+        <div class="category-header">Et Yemekleri</div>
+        <div class="category-content">
+            <div class="menu-row"><span>Macar Kebabı</span><span class="item-price">280 TL</span></div>
+            <div class="menu-row"><span>Sebzeli Kebap</span><span class="item-price">280 TL</span></div>
+            <div class="menu-row"><span>Patlıcan Kebap</span><span class="item-price">280 TL</span></div>
+            <div class="menu-row"><span>Hünkar Beğendi</span><span class="item-price">280 TL</span></div>
+            <div class="menu-row"><span>Arnavut Ciğeri</span><span class="item-price">280 TL</span></div>
+            <div class="menu-row"><span>Et Haşlama</span><span class="item-price">350 TL</span></div>
+            <div class="menu-row"><span>Şef Tabağı</span><span class="item-price">350 TL</span></div>
+        </div>
+    </div>
 
     <!-- KIYMALI YEMEKLER -->
-    <div class="category-title">Kıymalı Yemekler</div>
-    <div class="menu-item"><div class="item-name">İslim Kebabı</div><div class="item-price">240 TL</div></div>
-    <div class="menu-item"><div class="item-name">Karnı Yarık</div><div class="item-price">240 TL</div></div>
-    <div class="menu-item"><div class="item-name">Patlıcan Musakka</div><div class="item-price">240 TL</div></div>
-    <div class="menu-item"><div class="item-name">Çiftlik Köfte</div><div class="item-price">220 TL</div></div>
-    <div class="menu-item"><div class="item-name">İzmir Köfte</div><div class="item-price">240 TL</div></div>
-    <div class="menu-item"><div class="item-name">Sebzeli Köfte</div><div class="item-price">210 TL</div></div>
-    <div class="menu-item"><div class="item-name">Kadın Budu Köfte</div><div class="item-price">280 TL</div></div>
-    <div class="menu-item"><div class="item-name">Lazanya</div><div class="item-price">280 TL</div></div>
+    <div class="category-item">
+        <div class="category-header">Kıymalı Yemekler</div>
+        <div class="category-content">
+            <div class="menu-row"><span>İslim Kebabı</span><span class="item-price">240 TL</span></div>
+            <div class="menu-row"><span>Karnı Yarık</span><span class="item-price">240 TL</span></div>
+            <div class="menu-row"><span>Patlıcan Musakka</span><span class="item-price">240 TL</span></div>
+            <div class="menu-row"><span>Çiftlik Köfte</span><span class="item-price">220 TL</span></div>
+            <div class="menu-row"><span>İzmir Köfte</span><span class="item-price">240 TL</span></div>
+            <div class="menu-row"><span>Sebzeli Köfte</span><span class="item-price">210 TL</span></div>
+            <div class="menu-row"><span>Kadın Budu Köfte</span><span class="item-price">280 TL</span></div>
+            <div class="menu-row"><span>Lazanya</span><span class="item-price">280 TL</span></div>
+        </div>
+    </div>
 
     <!-- TAVUK YEMEKLERİ -->
-    <div class="category-title">Tavuk Yemekleri</div>
-    <div class="menu-item"><div class="item-name">Tavuk Kalamar</div><div class="item-price">220 TL</div></div>
-    <div class="menu-item"><div class="item-name">Tavuk Fajita</div><div class="item-price">220 TL</div></div>
-    <div class="menu-item"><div class="item-name">Köri Soslu Tavuk</div><div class="item-price">220 TL</div></div>
-    <div class="menu-item"><div class="item-name">Sacda Tavuk Sote</div><div class="item-price">220 TL</div></div>
-    <div class="menu-item"><div class="item-name">Fırın Tavuk</div><div class="item-price">220 TL</div></div>
-    <div class="menu-item"><div class="item-name">Tavuk Haşlama</div><div class="item-price">220 TL</div></div>
-    <div class="menu-item"><div class="item-name">Piliç Topkapı</div><div class="item-price">280 TL</div></div>
+    <div class="category-item">
+        <div class="category-header">Tavuk Yemekleri</div>
+        <div class="category-content">
+            <div class="menu-row"><span>Tavuk Kalamar</span><span class="item-price">220 TL</span></div>
+            <div class="menu-row"><span>Tavuk Fajita</span><span class="item-price">220 TL</span></div>
+            <div class="menu-row"><span>Köri Soslu Tavuk</span><span class="item-price">220 TL</span></div>
+            <div class="menu-row"><span>Sacda Tavuk Sote</span><span class="item-price">220 TL</span></div>
+            <div class="menu-row"><span>Fırın Tavuk</span><span class="item-price">220 TL</span></div>
+            <div class="menu-row"><span>Tavuk Haşlama</span><span class="item-price">220 TL</span></div>
+            <div class="menu-row"><span>Piliç Topkapı</span><span class="item-price">280 TL</span></div>
+        </div>
+    </div>
 
     <!-- SEBZE YEMEKLERİ -->
-    <div class="category-title">Sebze Yemekleri</div>
-    <div class="menu-item"><div class="item-name">Etli Kuru Fasulye</div><div class="item-price">200 TL</div></div>
-    <div class="menu-item"><div class="item-name">Zeyt. Taze Fasulye</div><div class="item-price">200 TL</div></div>
-    <div class="menu-item"><div class="item-name">Etli Nohut</div><div class="item-price">200 TL</div></div>
-    <div class="menu-item"><div class="item-name">Dolma Çeşitleri</div><div class="item-price">200 TL</div></div>
-    <div class="menu-item"><div class="item-name">Karışık Kızartma</div><div class="item-price">200 TL</div></div>
-    <div class="menu-item"><div class="item-name">Keşkek</div><div class="item-price">180 TL</div></div>
-    <div class="menu-item"><div class="item-name">Ev Mantısı</div><div class="item-price">280 TL</div></div>
+    <div class="category-item">
+        <div class="category-header">Sebze Yemekleri</div>
+        <div class="category-content">
+            <div class="menu-row"><span>Etli Kuru Fasulye</span><span class="item-price">200 TL</span></div>
+            <div class="menu-row"><span>Zeyt. Taze Fasulye</span><span class="item-price">200 TL</span></div>
+            <div class="menu-row"><span>Etli Nohut</span><span class="item-price">200 TL</span></div>
+            <div class="menu-row"><span>Dolma Çeşitleri</span><span class="item-price">200 TL</span></div>
+            <div class="menu-row"><span>Karışık Kızartma</span><span class="item-price">200 TL</span></div>
+            <div class="menu-row"><span>Keşkek</span><span class="item-price">180 TL</span></div>
+            <div class="menu-row"><span>Ev Mantısı</span><span class="item-price">280 TL</span></div>
+        </div>
+    </div>
 
-    <!-- PİLAVLAR & MAKARNALAR -->
-    <div class="category-title">Pilavlar & Makarnalar</div>
-    <div class="menu-item"><div class="item-name">Terey. Pirinç Pilavı</div><div class="item-price">80 TL</div></div>
-    <div class="menu-item"><div class="item-name">Bulgur Pilavı</div><div class="item-price">80 TL</div></div>
-    <div class="menu-item"><div class="item-name">Spagetti</div><div class="item-price">80 TL</div></div>
-    <div class="menu-item"><div class="item-name">Fırın Makarna</div><div class="item-price">180 TL</div></div>
-
-    <!-- SALATALAR -->
-    <div class="category-title">Salatalar & Yan Ürünler</div>
-    <div class="menu-item"><div class="item-name">Çoban Salata</div><div class="item-price">70 TL</div></div>
-    <div class="menu-item"><div class="item-name">Yoğurt</div><div class="item-price">60 TL</div></div>
-    <div class="menu-item"><div class="item-name">Cacık</div><div class="item-price">70 TL</div></div>
+    <!-- PİLAVLAR -->
+    <div class="category-item">
+        <div class="category-header">Pilavlar & Makarnalar</div>
+        <div class="category-content">
+            <div class="menu-row"><span>Terey. Pirinç Pilavı</span><span class="item-price">80 TL</span></div>
+            <div class="menu-row"><span>Bulgur Pilavı</span><span class="item-price">80 TL</span></div>
+            <div class="menu-row"><span>Spagetti</span><span class="item-price">80 TL</span></div>
+            <div class="menu-row"><span>Fırın Makarna</span><span class="item-price">180 TL</span></div>
+        </div>
+    </div>
 
     <!-- İÇECEKLER -->
-    <div class="category-title">İçecekler</div>
-    <div class="menu-item"><div class="item-name">Kutu İçecekler</div><div class="item-price">70 TL</div></div>
-    <div class="menu-item"><div class="item-name">Şişe İçecekler</div><div class="item-price">50 TL</div></div>
-    <div class="menu-item"><div class="item-name">Ayran</div><div class="item-price">40 TL</div></div>
-    <div class="menu-item"><div class="item-name">Soda</div><div class="item-price">30 TL</div></div>
-    <div class="menu-item"><div class="item-name">Su</div><div class="item-price">10 TL</div></div>
+    <div class="category-item">
+        <div class="category-header">İçecekler</div>
+        <div class="category-content">
+            <div class="menu-row"><span>Kutu İçecekler</span><span class="item-price">70 TL</span></div>
+            <div class="menu-row"><span>Şişe İçecekler</span><span class="item-price">50 TL</span></div>
+            <div class="menu-row"><span>Ayran</span><span class="item-price">40 TL</span></div>
+            <div class="menu-row"><span>Soda</span><span class="item-price">30 TL</span></div>
+            <div class="menu-row"><span>Su</span><span class="item-price">10 TL</span></div>
+        </div>
+    </div>
 
     <!-- TATLILAR -->
-    <div class="category-title">Tatlılar</div>
-    <div class="menu-item"><div class="item-name">Sütlaç</div><div class="item-price">120 TL</div></div>
+    <div class="category-item">
+        <div class="category-header">Tatlılar</div>
+        <div class="category-content">
+            <div class="menu-row"><span>Sütlaç</span><span class="item-price">120 TL</span></div>
+        </div>
+    </div>
 
 </div>
 
 <footer>
-    &copy; 2024 Vefa Lokantası <br>
-    Afiyet Olsun!
+    &copy; 2024 Vefa Lokantası | Afiyet Olsun!
 </footer>
+
+<script>
+    // Tıklama özelliğini ekleyen küçük kod
+    document.querySelectorAll('.category-header').forEach(header => {
+        header.addEventListener('click', () => {
+            const parent = header.parentElement;
+            parent.classList.toggle('active');
+            
+            // Diğer açık olanları kapatmak istersen (isteğe bağlı):
+            /*
+            document.querySelectorAll('.category-item').forEach(item => {
+                if(item !== parent) item.classList.remove('active');
+            });
+            */
+        });
+    });
+</script>
 
 </body>
 </html>
